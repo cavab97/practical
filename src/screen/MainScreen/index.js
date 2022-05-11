@@ -1,47 +1,85 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
-import { stockSampleList } from "../../data/stock";
+import TableMarkup from "../../components/table";
+import ModalMarkup from "../../components/modal";
+import { stockQuickSelect } from "../../data/stock";
 import {
   increaseCounter,
   decreaseCounter,
   fetchData,
+  selectStock,
+  showModal,
+  quantityInsert,
+  insertOrder,
 } from "../../redux/AddButton/actions";
+import "./styles.css";
 
 function Main(props) {
   const MINUTE_MS = 5000;
-  props.onFetchData();
+
+  // const [getPreviousData, setPreviousData] = useState([]);
+  useEffect(() => {
+    props.onFetchData();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log(stockSampleList + "Logs every minute");
+      props.onFetchData();
+      props.increaseCounter();
+      // console.log(props.count);
     }, MINUTE_MS);
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, []);
 
   return (
-    <div className="App">
-      <div>Count: {props.count}</div>
+    <>
+      <ModalMarkup
+        data={props.stockPick}
+        show={props.showMOdal}
+        pickStock={props.onSelectStock}
+        onActionShowModal={props.onActionShowModal}
+        stockQuickSelect={stockQuickSelect}
+        onInsertQuantity={props.onInsertQuantity}
+        quantity={props.quantity}
+        onInsertOrder={props.onInsertOrder}
+        // getPreviousData={getPreviousData}
+      />
+      <div className="container">
+        <div>Count: {props.count}</div>
+        {/* {console.log("hello", props.preStock)}
+        {console.log("hello2", props.stock)} */}
 
-      <button onClick={() => props.increaseCounter()}>Increase Count</button>
-
-      <button onClick={() => props.decreaseCounter()}>Decrease Count</button>
-    </div>
+        <TableMarkup
+          data={props.stock}
+          onActionShowModal={props.onActionShowModal}
+          pickStock={props.onSelectStock}
+        ></TableMarkup>
+      </div>
+    </>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
     count: state.counter.count,
+    stock: state.counter.stock,
+    preStock: state.counter.PreStock,
+    showMOdal: state.counter.openModal,
+    stockPick: state.counter.stockPicked,
+    quantity: state.counter.quantity,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     increaseCounter: () => dispatch(increaseCounter()),
-
     decreaseCounter: () => dispatch(decreaseCounter()),
     onFetchData: () => dispatch(fetchData()),
+    onSelectStock: (e, index) => dispatch(selectStock(e, index)),
+    onActionShowModal: () => dispatch(showModal()),
+    onInsertQuantity: (e) => dispatch(quantityInsert(e)),
+    onInsertOrder: (e) => dispatch(insertOrder(e)),
   };
 };
 

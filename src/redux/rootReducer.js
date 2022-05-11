@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import counterReducer from "./AddButton/reducer";
+import reducer from "./AddButton/reducer";
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
+  counter: reducer,
 });
 
 export default rootReducer;
