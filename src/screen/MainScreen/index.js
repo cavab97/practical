@@ -17,6 +17,8 @@ import "./styles.css";
 
 function Main(props) {
   const MINUTE_MS = 5000;
+  const [getPrePrice, setPrePrice] = useState(0);
+  const [getError, setError] = useState(false);
 
   // const [getPreviousData, setPreviousData] = useState([]);
   useEffect(() => {
@@ -26,7 +28,7 @@ function Main(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       props.onFetchData();
-      props.increaseCounter();
+      // props.increaseCounter();
       // console.log(props.count);
     }, MINUTE_MS);
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
@@ -44,9 +46,12 @@ function Main(props) {
         quantity={props.quantity}
         onInsertOrder={props.onInsertOrder}
         // getPreviousData={getPreviousData}
+        getPrePrice={getPrePrice}
+        setError={setError}
+        getError={getError}
       />
       <div className="container">
-        <div>Count: {props.count}</div>
+        {/* <div>Count: {props.count}</div> */}
         {/* {console.log("hello", props.preStock)}
         {console.log("hello2", props.stock)} */}
 
@@ -54,6 +59,7 @@ function Main(props) {
           data={props.stock}
           onActionShowModal={props.onActionShowModal}
           pickStock={props.onSelectStock}
+          setPrePrice={setPrePrice}
         ></TableMarkup>
       </div>
     </>

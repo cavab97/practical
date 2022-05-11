@@ -2,25 +2,25 @@ export const stockSampleList = [
   {
     Name: "AAPL",
     Price: 120,
-    Quantity: "-",
+    Quantity: 0,
     Time: "2016-05-06T20:03:55",
   },
   {
     Name: "GOOGL",
     Price: 2550,
-    Quantity: "-",
+    Quantity: 0,
     Time: "2016-05-06T20:03:55",
   },
   {
     Name: "AMZN",
     Price: 3580,
-    Quantity: "-",
+    Quantity: 0,
     Time: "2016-05-06T20:03:55",
   },
   {
-    Name: "Godaddy Inc",
+    Name: "Godaddy",
     Price: 70.74,
-    Quantity: "-",
+    Quantity: 0,
     Time: "2016-05-06T20:03:55",
   },
 ];

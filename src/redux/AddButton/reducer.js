@@ -35,7 +35,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       };
     case CONFIRM_ORDER:
       let tempArray = state.stock;
-      tempArray[state.currectStockIndexSelected].Quantity = action.qty;
+      tempArray[state.currectStockIndexSelected].Quantity += action.qty;
       return {
         ...state,
         stock: tempArray,

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import moment from "moment";
 
-export default ({ data, onActionShowModal, pickStock }) => (
+export default ({ data, onActionShowModal, pickStock, setPrePrice }) => (
   <TableMarkup
     titles={data.length > 0 ? Object.keys(data[0]) : []}
     data={data}
     onActionShowModal={onActionShowModal}
     pickStock={pickStock}
+    setPrePrice={setPrePrice}
   />
 );
 // const renderSwitch = (
@@ -57,7 +58,13 @@ export default ({ data, onActionShowModal, pickStock }) => (
 //   }
 // };
 
-const TableMarkup = ({ titles, data, onActionShowModal, pickStock }) => {
+const TableMarkup = ({
+  titles,
+  data,
+  onActionShowModal,
+  pickStock,
+  setPrePrice,
+}) => {
   var a = moment(new Date()); //now
   var b = moment("2016-05-06T20:03:55");
   const handleTime = (e, i) => {
@@ -100,6 +107,7 @@ const TableMarkup = ({ titles, data, onActionShowModal, pickStock }) => {
             return (
               <tr
                 onClick={() => {
+                  setPrePrice(item.Price);
                   pickStock(item, index);
                   onActionShowModal();
                 }}
@@ -107,7 +115,7 @@ const TableMarkup = ({ titles, data, onActionShowModal, pickStock }) => {
               >
                 <td>{item.Name}</td>
                 <td>{item.Price.toFixed(2)}</td>
-                <td>{item.Quantity}</td>
+                <td>{item.Quantity == 0 ? "-" : item.Quantity}</td>
                 <td>{handleTime(a.diff(moment(item.Time), "seconds"))}</td>
               </tr>
             );

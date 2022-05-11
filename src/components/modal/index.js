@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Img from "../Img";
+import AAPL from "../../Assets/AAPL.png";
+import AMZN from "../../Assets/AMZN.png";
+import GOOGL from "../../Assets/GOOGL.png";
+import Godaddy from "../../Assets/Godaddy.png";
 
 export default ({
   data,
@@ -10,6 +14,9 @@ export default ({
   onInsertQuantity,
   quantity,
   onInsertOrder,
+  getPrePrice,
+  setError,
+  getError,
 }) => (
   <ModalMarkup
     data={data}
@@ -20,6 +27,9 @@ export default ({
     onInsertQuantity={onInsertQuantity}
     quantity={quantity}
     onInsertOrder={onInsertOrder}
+    getPrePrice={getPrePrice}
+    setError={setError}
+    getError={getError}
   />
 );
 
@@ -32,10 +42,17 @@ const ModalMarkup = ({
   onInsertQuantity,
   quantity,
   onInsertOrder,
+  getPrePrice,
+  setError,
+  getError,
 }) => {
   const [getQuantityInOdd, setQuantity] = useState(1);
+
   function handleChange(event) {
     setQuantity(event.target.value);
+    const getImage = (image) => {
+      return <img src={require(`../../Assets/${image}.png`)} />;
+    };
   }
   return (
     <div className="model" style={{ display: show ? "flex" : "none" }}>
@@ -49,11 +66,23 @@ const ModalMarkup = ({
               onActionShowModal();
             }}
           >
-            <Img src="https://img.icons8.comgetPreviousData/material-outlined/24/000000/delete-sign.png" />
+            x
           </button>
         </div>
         <div className="buttomSection">
-          <div className="buttomLeftSection"></div>
+          <div className="buttomLeftSection">
+            <img
+              src={
+                data.Name == "AAPL"
+                  ? AAPL
+                  : data.Name == "GOOGL"
+                  ? GOOGL
+                  : data.Name == "AMZN"
+                  ? AMZN
+                  : Godaddy
+              }
+            />
+          </div>
           <div className="buttomRightSection">
             <div className="buttomRightPrice">
               <div className="buttomRightPriceText">
@@ -90,6 +119,9 @@ const ModalMarkup = ({
                     onChange={handleChange}
                   />
                 </span>
+                <span style={{ color: "red" }}>
+                  {getError ? "Unsuccessful" : ""}
+                </span>
               </div>
             </div>
             <div className="buttomRightButtonDiv">
@@ -104,8 +136,14 @@ const ModalMarkup = ({
               <button
                 className="buttomRightButton"
                 onClick={() => {
-                  onInsertOrder(getQuantityInOdd);
-                  onActionShowModal();
+                  if (getPrePrice < data.Price) {
+                    setError(true);
+                  } else {
+                    setError(false);
+                    onInsertOrder(getQuantityInOdd);
+                    onActionShowModal();
+                    alert("Your are Successful Buy");
+                  }
                 }}
               >
                 {"Add to Order"}
