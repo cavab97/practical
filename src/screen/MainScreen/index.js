@@ -28,7 +28,7 @@ function Main(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       props.onFetchData();
-      // props.increaseCounter();
+      props.increaseCounter();
       // console.log(props.count);
     }, MINUTE_MS);
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
@@ -51,7 +51,7 @@ function Main(props) {
         getError={getError}
       />
       <div className="container">
-        {/* <div>Count: {props.count}</div> */}
+        <div>Count: {props.count}</div>
         {/* {console.log("hello", props.preStock)}
         {console.log("hello2", props.stock)} */}
 
